@@ -3,3 +3,21 @@ title: "Spatial Viz"
 ---
 
 Use this file to generate a professional looking **spatial** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
+
+
+```{r}
+library(ggplot2)
+library(sf)
+library(maps)
+library(mosaic)
+elections_by_state <-  read.csv("https://mac-stat.github.io/data/election_2020_by_state.csv")
+states_map <- map_data("state")
+
+ggplot(elections_by_state, aes(map_id = state_name, fill = repub_pct_20)) +
+  geom_map(map = states_map) +
+  expand_limits(x = states_map$long, y = states_map$lat) +
+  theme_map() + 
+  scale_fill_gradientn(name = "% Republican", colors = c("royalblue", "purple", "seashell"), values = scales::rescale(seq(0, 100, by = 5)))+
+  labs(title = "Map for Republican Voting Percentages Across States")
+```
+

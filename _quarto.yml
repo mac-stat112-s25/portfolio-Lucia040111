@@ -4,7 +4,7 @@ project:
 
 book:
   title: "COMP/STAT112 Notebook"
-  author: "Your Name Here"
+  author: "Lucia"
   date: today
   reader-mode: true
   page-navigation: true
@@ -13,7 +13,7 @@ book:
   
   
   sidebar:
-    title: "Your Name Here"
+    title: "Lucia"
     collapse-level: 2
     style: "docked"
     pinned: true
@@ -33,10 +33,10 @@ book:
 
     - part: "In-class Activities"
       chapters: 
-      - ica/ica-uni.qmd
-      - ica/ica-bi.qmd
-      - ica/ica-multi.qmd
-      - ica/ica-spatial.qmd
+      - ica/Univariate Viz.qmd
+      - ica/Bivariate Viz.qmd
+      - ica/Multivariate Viz.qmd
+      - ica/Spatial Viz2.qmd
 
 format:
   html:
