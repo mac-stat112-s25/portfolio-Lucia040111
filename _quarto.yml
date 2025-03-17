@@ -37,6 +37,12 @@ book:
       - ica/Bivariate Viz.qmd
       - ica/Multivariate Viz.qmd
       - ica/Spatial Viz2.qmd
+      - ica/Wrangling.qmd
+      - ica/Dates.qmd
+      - ica/Reshaping.qmd
+      - ica/Joining.qmd
+      - ica/Factors.qmd
+      - ica/Strings.qmd
 
 format:
   html:
