@@ -512,6 +512,8 @@ ggplot(student_class_size, aes(x = med)) +
 Show data on the students that enrolled in `session1986`. THINK FIRST: Which of the 2 datasets do you need to answer this question? One? Both?
 
 ```{r}
+grades |> 
+  filter(sessionID == "session1986")
 ```
 
 #### Part b {.unnumbered}
@@ -526,6 +528,8 @@ dept_E <- courses |>
 What students enrolled in classes in department E? (We just want info on the students, not the classes.)
 
 ```{r}
+grades |> 
+  semi_join(dept_E)
 ```
 
 
@@ -551,6 +555,10 @@ gpa_conversion
 How many total student enrollments are there in each department? Order from high to low.
 
 ```{r}
+courses %>%
+  group_by(dept)%>%
+  summarize(total_enroll=sum(enroll))%>%
+  arrange(desc(total_enroll))
 ```
 
 #### Part b {.unnumbered}
@@ -558,6 +566,10 @@ How many total student enrollments are there in each department? Order from high
 What's the grade-point average (GPA) for each student?
 
 ```{r}
+grades%>%
+  left_join(gpa_conversion)%>%
+  group_by(sid)%>%
+  summarize(mean(gp, na.rm = TRUE))
 ```
 
 #### Part c {.unnumbered}
@@ -565,6 +577,15 @@ What's the grade-point average (GPA) for each student?
 What's the median GPA across all students?
 
 ```{r}
+grades%>%
+  left_join(gpa_conversion)%>%
+  summarize(mean(gp, na.rm = TRUE))
+
+grades |> 
+  left_join(gpa_conversion) |> 
+  group_by(sid) |> 
+  summarize(gpa = mean(gp, na.rm = TRUE)) |> 
+  summarize(median(gpa))
 ```
 
 #### Part d {.unnumbered}
@@ -572,6 +593,12 @@ What's the median GPA across all students?
 What fraction of grades are below B+?
 
 ```{r}
+grades%>%
+  left_join(gpa_conversion)%>%
+  mutate(below_b_plus = (gp < 3.3)) |> 
+  summarize(mean(below_b_plus, na.rm = TRUE))
+
+
 ```
 
 #### Part e {.unnumbered}
@@ -579,6 +606,12 @@ What fraction of grades are below B+?
 What's the grade-point average for each instructor? Order from low to high.
 
 ```{r}
+grades%>%
+  left_join(gpa_conversion)%>%
+  left_join(courses)%>%
+  group_by(iid)%>%
+  summarize(gpa = mean(gp, na.rm = TRUE))%>%
+  arrange(gpa)
 ```
 
 #### Part f {.unnumbered}

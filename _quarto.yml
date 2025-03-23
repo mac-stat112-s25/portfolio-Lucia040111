@@ -43,6 +43,9 @@ book:
       - ica/Joining.qmd
       - ica/Factors.qmd
       - ica/Strings.qmd
+    - part: "Notes and Sheets"
+      chapters:
+      - notes/Notes.qmd
 
 format:
   html:

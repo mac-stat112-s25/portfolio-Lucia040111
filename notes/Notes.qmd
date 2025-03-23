@@ -1,0 +1,24 @@
+---
+title: "notes and sheets"
+number-sections: true
+execute: 
+  warning: false
+fig-env: 'figure'
+fig-pos: 'h'
+fig-align: center
+code-fold: false
+---
+
+**Exam 1**
+
+![](Q1.png)
+
+
+**Exam 2**
+
+
+
+**My notes for codes**
+[Google Docs](https://docs.google.com/document/d/1lOE6jP1DCsxfoaAIxf-gG1-Hxd9mkNDFnBxZJgYw650/edit?tab=t.0)
+
+
