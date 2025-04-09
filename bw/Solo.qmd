@@ -1,0 +1,51 @@
+---
+title: "Solo Project"
+editor: visual
+---
+
+
+```{r}
+library(tidyverse)
+library(rnaturalearth)
+library(mosaic)
+library(dplyr)
+library(sf)
+library(ggplot2)
+library(tigris)
+
+
+water_insecurity_2023 <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2023.csv')
+
+head(water_insecurity_2023)
+
+texas<-water_insecurity_2023 %>%
+  separate(name, c("county", "state"), sep = ",")%>%
+  mutate(state = trimws(state))%>%
+  filter(state == "Texas")%>%
+  na.omit()%>%
+  mutate(county = str_remove(county, "County"))
+```
+
+
+
+```{r}
+library(USAboundaries)
+tex_counties<- USAboundaries::us_counties(resolution = "high", states = "Texas") %>% select(c("geoid", "geometry"))
+
+Tex_full<- tex_counties %>%
+  left_join(texas, by="geoid")
+
+ggplot(Tex_full)+
+  geom_sf(aes(fill = percent_lacking_plumbing))+
+  scale_fill_gradientn(na.value = "azure3",name = "% Lacking Plumbing", colors = c( "white", "pink", "deeppink2"), values = scales::rescale(seq(0, 100, by = 5)))+
+   labs(title = "Map for Percent of Population Lacking Plumbing Facilities in Texas")+
+   theme_map()
+  
+```
+
+
+
+
+
+
+

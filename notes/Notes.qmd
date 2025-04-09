@@ -14,7 +14,12 @@ code-fold: false
 ![](Q1.png)
 
 
+
 **Exam 2**
+
+![](Q2.png)
+
+
 
 
 

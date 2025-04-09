@@ -1,0 +1,78 @@
+---
+title: "Exam1"
+number-sections: true
+execute: 
+  warning: false
+fig-env: 'figure'
+fig-pos: 'h'
+fig-align: center
+code-fold: false
+---
+>What does the consumption.of each food category in each country look like?
+
+## Install Packages
+
+> We don't need to install the packages again, they are already in R.
+
+## Load Packages
+
+```{r}
+library(tidytuesdayR)
+library(tidyverse)
+```
+
+> There are 9 packeges were loaded
+
+## Get Data
+
+```{r}
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food
+```
+
+>First load data tuesdata by using functio tt.load to get the data on data '2020-02-18', then get data fc by only including the part food consumption in tuesdata. 
+
+## Understand Data
+
+```{r}
+head(fc)
+dim(fc)
+str(fc)
+tail(fc)
+```
+
+
+## Explore data
+> There are 11 food categories and 130 countries. 
+
+
+## Understand Variables Individually
+
+>There are 3 variables that the grand research question involve.
+
+>country(bar graph), food_category(bar graph), consumption(density).
+
+
+
+
+## Understand Consumption
+
+>Overall Food Consumption/ Food Category: boxplot, histogram (using 11 box plots)
+
+>Overall Food Consumption/country : boxplot(using 130 box plot)
+
+
+## Answering Grand RQ
+
+> histogram(facet +ridge), density(facet +ridge), boxplot(boxplots + facets), violin(violins + facets), map (color by consumption, facet by categories). Since there are 130 countries and 11 food categories, we will have too many facets for each method, and there might be too many information in the graph which makes it hard for people to read. So maybe map might be the best choice.
+
+## Beyond Viz
+
+### Effectiveness
+
+> labs(x=, y=, title=), change the color, cap, alt, scales, theme...
+
+### Additional Questions
+
+>How does co2_emmission look like in each country?
+How are co2_emmission and consumption are related to each other?
