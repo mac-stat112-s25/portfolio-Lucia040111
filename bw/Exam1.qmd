@@ -52,6 +52,17 @@ tail(fc)
 
 >country(bar graph), food_category(bar graph), consumption(density).
 
+```{r}
+#| fig-height: 5
+#| fig-width: 9
+fc %>% ggplot(aes(x = country)) + geom_bar()
+
+fc %>% ggplot(aes(x = food_category)) + geom_bar()
+
+fc %>% ggplot(aes(x = consumption)) + geom_density()
+```
+
+
 
 
 
@@ -59,8 +70,18 @@ tail(fc)
 
 >Overall Food Consumption/ Food Category: boxplot, histogram (using 11 box plots)
 
+```{r}
+fc %>% ggplot(aes(x = food_category, y = consumption))+ geom_boxplot()
+```
+
+
 >Overall Food Consumption/country : boxplot(using 130 box plot)
 
+```{r}
+#| fig-height: 5
+#| fig-width: 10
+fc %>% ggplot(aes(x = country, y = consumption))+ geom_boxplot()
+```
 
 ## Answering Grand RQ
 

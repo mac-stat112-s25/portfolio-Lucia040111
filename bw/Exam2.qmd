@@ -1,0 +1,171 @@
+---
+title: "Exam2"
+number-sections: true
+execute: 
+  warning: false
+fig-env: 'figure'
+fig-pos: 'h'
+fig-align: center
+code-fold: false
+---
+
+
+## 2. Background
+
+```{r}
+library(tidytuesdayR)
+library(tidyverse)
+library(rnaturalearth)
+library(sf)
+
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food
+
+str(fc)
+
+head(fc)
+
+fc %>%distinct(food_category)
+```
+
+### 2.7
+> fct_recode(), mutate()
+
+```{r}
+fcc <- fc %>% mutate(food_category = fct_recode(food_category, 
+                                 "Lamb" = "Lamb & Goat",
+                                 "Diary" = "Milk - inc. cheese",
+                                 "Wheat" = "Wheat and Wheat Products",
+                                 "Nuts" = "Nuts inc. Peanut Butter"))
+
+fcc %>% distinct(food_category)
+```
+
+## 3. Most Consuming Countries
+
+```{r}
+mcc <- fcc %>%
+  group_by(country) %>%
+  summarize(total_consumption = sum(consumption)) %>%
+  arrange(desc(total_consumption)) 
+
+head(mcc,5)
+
+mcc %>% 
+  head(5)%>%
+  ggplot(aes(x = country, y = total_consumption))+ 
+  geom_bar(stat = "identity")
+```
+
+## 4. Most Consuming Countries of each food
+
+```{r}
+#| fig-height: 3
+#| fig-width: 7
+mccef <- fcc %>% 
+  select(food_category, country, consumption)%>%
+  group_by(food_category)%>%
+  slice_max(consumption)
+
+mccef %>%
+  ggplot(aes(x = food_category, y = consumption, fill = country))+ 
+  geom_bar(stat = "identity")
+```
+
+## 5. Food Consumption
+
+### 5.3 Viz: Attempt 1
+```{r}
+ne_countries(returnclass = "sf") %>% #downloads spatial data for all countries of the world
+  select(name, geometry) %>% # keeps only the "name" and "geometry" columns
+  left_join(fcc %>% select(-co2_emmission),#removes the "co2_emmission" column
+            join_by(name == country))%>%#combine the spatial country data with fcc data 
+  ggplot() +
+  geom_sf(aes(fill = consumption)) +
+  facet_wrap(~food_category) +
+  theme(legend.position = "bottom")
+```
+> There are NA, and the color isb't obvious. 
+
+
+### 5.4 Countries with Missing Consumption Data
+```{r}
+world_consumption <- ne_countries(returnclass = "sf") %>%
+  select(name, geometry) %>%
+  left_join(fcc %>% select(-co2_emmission),
+            join_by(name == country))
+
+na_countries <- world_consumption %>%
+  filter(is.na(consumption)) %>%
+  pull(name)
+
+print(na_countries)
+```
+
+### 5.5 Viz: Attempt 2
+
+```{r}
+ne_countries(returnclass = "sf") |>
+  select(name, geometry) |>
+  mutate(name = ifelse(name == "United States of America", "USA", name)) |>#Renames "United States of America" to "USA"
+  mutate(name = ifelse(name == "Bosnia and Herz.", "Bosnia and Herzegovina", name)) |>#Renames "Bosnia and Herz." to "Bosnia and Herzegovina"
+  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>#Renames "Czechia" to "Czech Republic" 
+  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>#Renames "Taiwan" to "Taiwan. ROC"
+  left_join(fcc %>% select(-co2_emmission), 
+            join_by(name == country)) |>
+  pivot_wider(names_from = food_category, #Change data to wide format with food categories as columns and consumption as values
+              values_from = consumption) |>
+  select(-"NA") |># Removes the column named "NA"
+  pivot_longer(cols = c(-name, -geometry),
+               names_to = "food_category",
+               values_to = "consumption") %>%
+  ggplot() +
+  geom_sf(aes(fill = consumption)) +
+  facet_wrap(~food_category) +
+  theme(legend.position = "bottom")
+```
+
+### 5.6 Food Consumption Statistics
+```{r}
+library(dplyr)
+
+consumption_summary <- fcc %>%
+  group_by(food_category) %>%
+  summarize(
+    min = min(consumption, na.rm = TRUE),
+    max = max(consumption, na.rm = TRUE),
+    range = max(consumption, na.rm = TRUE) - min(consumption, na.rm = TRUE)
+  )
+
+print(consumption_summary)
+```
+
+### 5.7 Viz: Attempt 3
+```{r}
+ne_countries(returnclass = "sf") |>
+  select(name, geometry) |>
+  mutate(name = ifelse(name == "United States of America", "USA", name)) |>
+  mutate(name = ifelse(name == "Bosnia and Herz.", "Bosnia and Herzegovina", name)) |>
+  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
+  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
+  left_join(fcc %>% 
+              select(-co2_emmission)|>
+              group_by(food_category)|>
+              mutate(consumption = (consumption - mean(consumption))/sd(consumption)), 
+            join_by(name == country)) |>
+  pivot_wider(names_from = food_category, 
+              values_from = consumption) |>
+  select(-"NA") |># Removes the column named "NA"
+  pivot_longer(cols = c(-name, -geometry),
+               names_to = "food_category",
+               values_to = "consumption") %>%
+  ggplot() +
+  geom_sf(aes(fill = consumption)) +
+  facet_wrap(~food_category) +
+  theme(legend.position = "bottom")
+```
+
+
+
+
+
