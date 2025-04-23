@@ -3,8 +3,13 @@ title: "Solo Project"
 editor: visual
 ---
 
-
 ```{r}
+#| echo: true
+#| warning: false
+#| error: false
+#| code-fold: true
+
+
 library(tidyverse)
 library(rnaturalearth)
 library(mosaic)
@@ -16,7 +21,6 @@ library(tigris)
 
 water_insecurity_2023 <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2023.csv')
 
-head(water_insecurity_2023)
 
 texas<-water_insecurity_2023 %>%
   separate(name, c("county", "state"), sep = ",")%>%
@@ -26,9 +30,14 @@ texas<-water_insecurity_2023 %>%
   mutate(county = str_remove(county, "County"))
 ```
 
-
-
 ```{r}
+#| fig-cap: "This map illustrates the percentage of the population lacking plumbing facilities in each county of Texas. Data: 2023 Water Insecurity Data. Created by Lucia Luo in 2025."
+#| fig-alt: "A map of Texas showing county-level data on the percentage of the population lacking plumbing."
+#| echo: true
+#| warning: false
+#| error: false
+#| code-fold: true
+
 library(USAboundaries)
 tex_counties<- USAboundaries::us_counties(resolution = "high", states = "Texas") %>% select(c("geoid", "geometry"))
 
@@ -37,15 +46,11 @@ Tex_full<- tex_counties %>%
 
 ggplot(Tex_full)+
   geom_sf(aes(fill = percent_lacking_plumbing))+
-  scale_fill_gradientn(na.value = "azure3",name = "% Lacking Plumbing", colors = c( "white", "pink", "deeppink2"), values = scales::rescale(seq(0, 100, by = 5)))+
+  scale_fill_gradientn(na.value = "azure3",name = "", colors = c( "white", "pink", "deeppink2"), values = scales::rescale(seq(0, 100, by = 5)))+
    labs(title = "Map for Percent of Population Lacking Plumbing Facilities in Texas")+
    theme_map()
   
 ```
 
-
-
-
-
-
+> This map of Texas illustrates the distribution of percentage of population lacking plumbing facilities at the county level. Each county is shaped according to a gradient, and colored by grey if there isn't information for percentage or from white to pink depending on the percentage if there is information. This visualization highlights regional differences in access to basic water across the state of Texas, and there is one county with the 0.6% of lacking plumbing facilities.
 

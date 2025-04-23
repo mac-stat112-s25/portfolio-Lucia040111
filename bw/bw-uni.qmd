@@ -2,10 +2,16 @@
 title: "Univariate Viz"
 ---
 
-Use this file to generate a professional looking **univariate** visualization. The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
 
 
 ```{r}
+#| fig-cap: "Histogram showing the distribution of hike elevations.Created by Lucia Luo in 2025."
+#| fig-alt: "Histogram with light blue bars showing the number of hikes at different elevation ranges."
+#| echo: true
+#| warning: false
+#| error: false
+#| code-fold: true
+
 library(ggplot2)
 hikes <- read.csv("https://mac-stat.github.io/data/high_peaks.csv")
 

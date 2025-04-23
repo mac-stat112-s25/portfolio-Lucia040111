@@ -2,9 +2,16 @@
 title: "Bivariate Viz"
 ---
 
-Use this file to generate a professional looking **bivariate** visualization.  The visualization will not perfect the first time but you are expected to improve it throughout the semester especially after covering advanced topics such as effective viz.
+
 
 ```{r}
+#| fig-cap: "Density plot showing the distribution of Republican support in the 2020 election. Created by Lucia Luo in 2025."
+#| fig-alt: "Density plot of Republican support percentage, with three overlapping density curves colored blue, purple, and red, representing historical voting trends. The x-axis shows Republican support percentage, and the y-axis shows density."
+#| echo: true
+#| warning: false
+#| error: false
+#| code-fold: true
+
 library(ggplot2)
 elections <- read.csv("https://mac-stat.github.io/data/election_2020_county.csv")
 

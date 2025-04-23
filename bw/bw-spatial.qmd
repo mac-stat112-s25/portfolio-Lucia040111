@@ -2,10 +2,17 @@
 title: "Spatial Viz"
 ---
 
-Use this file to generate a professional looking **spatial** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
 
 
 ```{r, fig.width=8, fig.height=5}
+#| fig-cap: "Map of the United States showing the percentage of votes for the Republican candidate in the 2020 election by state.Created by Lucia Luo in 2025"
+#| fig-alt: "A map of the United States where each state is filled with a color indicating the percentage of Republican votes."
+#| echo: true
+#| warning: false
+#| error: false
+#| code-fold: true
+
+
 library(ggplot2)
 library(sf)
 library(maps)

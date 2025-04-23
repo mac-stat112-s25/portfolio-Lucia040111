@@ -33,6 +33,10 @@ book:
       - bw/Exam1.qmd
       - bw/Exam2.qmd
       - bw/Solo.qmd
+      
+    - part: "Summary"
+      chapters:
+      - notes/Notes.qmd
 
     - part: "In-class Activities"
       chapters: 
@@ -46,9 +50,7 @@ book:
       - ica/Joining.qmd
       - ica/Factors.qmd
       - ica/Strings.qmd
-    - part: "Summary"
-      chapters:
-      - notes/Notes.qmd
+  
   
 
 format:
